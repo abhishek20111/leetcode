@@ -1,0 +1,58 @@
+class Pair{
+    int first;
+    int second;
+    Pair(int f, int s){
+        first = f;
+        second = s;
+    }
+}
+
+class Solution {
+    private void dfs(int row, int col, int[][] vis, char [][] grid){
+        vis[row][col] = 1;
+        Queue<Pair> q = new LinkedList<Pair>();
+        q.add(new Pair(row, col));
+
+        int n = grid.length;
+        int m = grid[0].length;
+
+        while(!q.isEmpty()){
+            int row_q = q.peek().first;
+            int col_q = q.peek().second;
+            q.remove();
+
+            for(int i=-1; i<=1; i++){
+                for(int j=-1; j<=1; j++){
+                    int nrow = row_q + i;
+                    int ncol = col_q + j;
+                    // if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol] == '1' &&
+                    //  vis[nrow][ncol] == 0){
+                    if((Math.abs(i-j)==1) && (nrow>=0 && nrow<grid.length) &&
+                     (ncol>=0 && ncol<grid[row].length) && vis[nrow][ncol] == 0 
+                     && grid[nrow][ncol] == '1'){
+                         vis[nrow][ncol] = 1;
+                         q.add(new Pair(nrow, ncol));
+                     }
+                }
+            }
+
+        }
+    }
+
+    public int numIslands(char[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int island =0;
+
+        int [][]vis = new int[n][m];
+        for(int row = 0; row<n ; row++){
+            for(int col=0; col<m; col++){
+                if(vis[row][col] == 0 && grid[row][col]=='1'){
+                    island++;
+                    dfs(row, col, vis, grid);
+                }
+            }
+        }
+        return island;
+    }
+}
