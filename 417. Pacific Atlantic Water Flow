@@ -1,0 +1,44 @@
+class Solution {
+    int dir[][] = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        List<List<Integer>> list = new ArrayList<>();
+
+        if(heights == null || heights.length ==0 || heights[0].length==0) return list;
+
+        int row = heights.length; 
+        int col = heights[0].length;
+        boolean [][] pacific = new boolean[row][col];
+        boolean [][] atlantic = new boolean[row][col];
+
+        for(int row_t=0; row_t<row; row_t++){
+            dfs(heights, row_t, 0, Integer.MIN_VALUE, pacific);
+            dfs(heights, row_t, col-1, Integer.MIN_VALUE, atlantic);
+        }
+
+        for(int col_t=0; col_t<col; col_t++){
+            dfs(heights, 0, col_t, Integer.MIN_VALUE, pacific);
+            dfs(heights, row-1, col_t, Integer.MIN_VALUE, atlantic);
+        }
+
+
+        for(int i=0; i<row; i++){
+            for(int j=0 ;j<col; j++){
+                if(pacific[i][j] && atlantic[i][j]){
+                    list.add(Arrays.asList(i,j)); // asList just use to make new list same as new Arraylsit<>(a,b) as this command cant work here so we use it;
+                }
+            }
+        }
+        return list;
+    }
+
+    private void dfs(int [][] matrix, int row, int col, int prev, boolean [][] ocean){
+        if(row<0 || row>=ocean.length || col<0 || col>=ocean[0].length) return;
+        if(matrix[row][col] < prev || ocean[row][col] ) return;
+
+        ocean[row][col] = true;
+        for(int [] d: dir){
+            dfs(matrix, row+d[0], col+d[1], matrix[row][col], ocean);
+        }
+    }
+}
