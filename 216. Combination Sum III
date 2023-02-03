@@ -1,0 +1,21 @@
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> ans = new ArrayList<>();
+        
+        solve(1, n, k, ans, new ArrayList());
+        return ans;
+    }
+
+    public static void solve(int ind, int n, int k, List<List<Integer>> ans, List<Integer> list){
+        if(k ==0 && n==0){
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+
+        for(int i=ind; i<10; i++){
+                list.add(i);
+                solve(i+1, n-i, k-1,  ans, list);
+                list.remove(list.size()-1);
+        }
+    }
+}
