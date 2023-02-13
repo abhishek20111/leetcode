@@ -1,0 +1,59 @@
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        char [][] arr = new char[n][n];
+        List<List<String>> ans = new ArrayList<>();
+        
+        for (int i = 0; i <n ; i++) {
+            for (int j = 0; j <n ; j++) {
+                arr[i][j]='.';
+            }
+        }
+        solve(arr, n, 0, ans);
+        return ans;
+    }
+
+    public void solve(char [][] arr, int tQ, int i, List<List<String>> ans){
+        if(tQ == i){
+            List<String> temp = new ArrayList<>();
+            for(int j=0; j<tQ; j++){
+                String s = new String(arr[j]);
+                temp.add(s);
+            }
+            ans.add(temp);
+            return;
+        }
+    
+        for(int j=0; j<tQ; j++){
+            if(isSafe(arr, i, j)){
+                arr[i][j] = 'Q';
+                solve(arr, tQ, i+1, ans);
+                arr[i][j] = '.';
+            }
+        }
+    }
+
+    public boolean isSafe(char [][]arr, int r, int c){
+        for(int i=r; i>=0; i--){
+            if(arr[i][c] == 'Q') return false;
+        }
+        
+        for(int j=0; j<c; j++){
+            if(arr[r][j] == 'Q') return false;
+        }
+
+        int ir=r, jr=c;
+        while(ir>=0 && jr>=0){
+            if(arr[ir][jr] == 'Q') return false;
+            ir--;
+            jr--;
+        }
+
+        int r2=r, c2=c;
+        while(r2 >=0 && c2<arr[0].length){
+            if(arr[r2][c2] == 'Q') return false;
+            r2--;
+            c2++;
+        }
+        return true;
+    }
+}
