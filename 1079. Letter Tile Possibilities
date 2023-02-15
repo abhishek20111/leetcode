@@ -1,0 +1,41 @@
+class Solution {
+    int count=0;
+    public int numTilePossibilities(String tiles) {
+        char [] ar = tiles.toCharArray();
+        Arrays.sort(ar);
+        solve(ar, new boolean[ar.length]);
+        return count-1;
+    }
+
+    public void solve(char [] ar, boolean [] b){
+        count++;
+
+        for(int i=0; i<ar.length; i++){
+            if(b[i] || (i>0 && ar[i] == ar[i-1] && !b[i-1]))continue;
+
+            b[i] = true;
+            solve(ar, b);
+            b[i] = false;
+        }
+    }
+
+    // public void solve(String in, String out, int ind){
+    //     if(in.length()==0){
+    //         count++;
+            
+    //         System.out.print(out+" ");
+    //         return;
+    //     }
+    //     // for(int i=0; i<in.length(); i++){
+    //     // char ch = in.charAt(i);
+    //     //     // if(i > ind && in.charAt(i) != in.charAt(i+1))
+    //     //     solve(in.substring(0, i)+ in.substring(i+1), out+ ch, ind+1);
+    //     //     solve(in.substring(0, i)+ in.substring(i+1), out, ind+1);
+    // // }
+    //     char ch = in.charAt(0);
+    //     solve(in.substring(1), out+ch, ind);
+    //     solve(in.substring(1), out, ind);
+            
+        
+    // }
+}
