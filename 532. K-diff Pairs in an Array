@@ -1,0 +1,15 @@
+class Solution {
+    public int findPairs(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap();
+        for(int num: nums){
+            map.put(num, map.getOrDefault(num, 0)+1);
+        }
+        int count =0;
+        for(int i: map.keySet()){
+            if(k>0 && map.containsKey(i+k) || k==0 && map.get(i)>1) count++;
+            // 1 k>0 && map.containsKey(i+k) is check k = a-b -> a is present as (k+b) as pair(a,b)            
+            // 2  k==0 && map.get(i)>1 if k=0 so mean same no can get k=0, like 2-2 = 0 and 3-3=0 so we check frequency of i by map.get(i)
+        }
+        return count;
+    }
+}
