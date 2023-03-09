@@ -1,0 +1,19 @@
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+        int prefix=0;
+        int result = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        for(int i : nums){
+            prefix = (prefix + i%k + k)%k;// this step specify 
+            //1 you have to modulo all element indivisualy
+            //2 you have to then add element one by one and modulo also at same instant
+            //3 prefix is for previous data, i%k is modulo of each element 
+            result += map.getOrDefault(prefix, 0);
+            map.put(prefix, map.getOrDefault(prefix, 0)+1);
+        }
+        return result;
+    }
+}
+
+also video https://www.youtube.com/watch?v=xmT2X6b3GXk&t=3s
