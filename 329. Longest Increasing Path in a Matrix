@@ -1,0 +1,39 @@
+class Solution {
+    public int longestIncreasingPath(int[][] arr) {
+        int max = Integer.MIN_VALUE;
+        int[][] vis = new int[arr.length][arr[0].length];
+
+        for(int i=0; i<arr.length; i++){
+            for(int j=0; j<arr[0].length; j++){
+                int curMax = dfs(arr, i, j, -1, vis);
+                max = Math.max(max, curMax);
+            }
+        }
+       return max;
+    }
+
+    public int dfs(int [][]arr, int i, int j, int pre, int[][] vis){
+        int n=arr.length;
+        int m=arr[0].length;
+        if(i<0 || i>=n||
+        j<0 || j>=m||
+        arr[i][j] <= pre )return 0;
+
+        if(vis[i][j] != 0)return vis[i][j];
+        
+        int cur = arr[i][j];
+        int t = dfs(arr, i+1, j, cur, vis);
+        int b = dfs(arr, i-1, j, cur, vis);
+        int l = dfs(arr, i, j+1, cur, vis);
+        int r = dfs(arr, i, j-1, cur, vis);
+
+        int max = t;
+        max = Math.max(max, b);
+        max = Math.max(max, l);
+        max = Math.max(max, r);
+
+        vis[i][j] = max+1;
+        return vis[i][j];
+    }
+
+}
