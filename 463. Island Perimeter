@@ -1,0 +1,54 @@
+class Solution {
+    public int islandPerimeter(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int island = 0, sideland= 0;
+        for(int i=0; i<grid.length; i++){
+            for(int j=0; j<grid[i].length; j++){
+                if(grid[i][j]==1){
+                    island++;
+                    if(i<grid.length-1 && grid[i+1][j]==1)sideland++;
+                    if(j<grid[i].length-1 && grid[i][j+1]==1)sideland++;
+                }
+            }
+        }
+        return island*4 - sideland*2;
+        // boolean [][]vis = new boolean[n][m];
+        // int[]arr = {0};
+        
+        // for(int i=0; i<n; i++){
+        //     for(int j=0; j<m; j++){
+        //         if(grid[i][j]==1){
+        //             dfs(grid, i, j, vis, arr);
+        //         }
+        //     }
+        // }
+        // int x = arr[0];
+        // System.out.println("1- "+x);
+        // if(n==m && x==n*n){
+        // System.out.println("2- "+x+" n-"+n);
+        //     return  4*n;
+        //     }
+        // x = 2*x+2;
+        // System.out.println("3- "+x);
+        
+        // return x;
+        
+    }
+    // private void dfs(int [][]grid, int i, int j, boolean [][]vis, int[] arr){
+    //     if(i<0 || i>=grid.length||
+    //         j<0 || j>=grid[0].length||
+    //         vis[i][j])return ;
+
+    //     vis[i][j] = true;
+    //     if(grid[i][j] == 1 ){
+    //         arr[0]++;
+    //         dfs(grid, i, j+1, vis, arr);
+    //         dfs(grid, i, j-1, vis, arr);
+    //         dfs(grid, i+1, j, vis, arr);
+    //         dfs(grid, i-1, j, vis, arr);
+
+    //     }
+        
+    // }
+}
