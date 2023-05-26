@@ -12,5 +12,10 @@ class Solution {
             totalsum += num;
         }
         return maxSum>0? Math.max(maxSum, totalsum-minSum): maxSum;
+        // last return statment say that if all array contain neagtive no then maxSum must be
+        // negative so print as it is, but if it have some positive no then you have to check 
+        // whether maxsum is greater or totalsum - minsum , as totalsum is sum of array 
+        // and minsum is min continuous sum in array so if we subtract it we get maxsum or
+        // total sum , after then compare it.
     }
 }
