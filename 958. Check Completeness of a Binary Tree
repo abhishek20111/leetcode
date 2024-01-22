@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isCompleteTree(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        boolean nullfound = false;
+        q.add(root);
+        while(!q.isEmpty()){
+            TreeNode rv = q.poll();
+            if(rv == null){
+                nullfound = true; // mtlb ki null last me mila hai(right side),so okay hai
+            }else{
+                if(nullfound){
+                    return false; //it mean left me koi null ,tha uske baad bhi node aaya hai , so left null tho galat hai na, as given in question
+                }
+                q.add(rv.left);
+                q.add(rv.right);
+            }
+        }
+        return true;
+    }
+}
