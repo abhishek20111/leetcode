@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int i;
+    List<Integer> res;
+    int []v;
+    public List<Integer> flipMatchVoyage(TreeNode root, int[] voyage) {
+        i=0;
+        res  = new ArrayList<>();
+        v = voyage;
+        return dfs(root)?res : Arrays.asList(-1);
+    }
+    public boolean dfs(TreeNode node){
+        if(node == null)return true;
+        if(node.val != v[i++])return false;
+
+        if(node.left != null && node.left.val != v[i]){ //this is where we have to flip due to node are not same 
+            res.add(node.val);
+            return dfs(node.right) && dfs(node.left);
+        }else{
+            //else we can normaly do dfs and traverse
+            return dfs(node.left) && dfs(node.right);
+        }
+
+    }
+}
