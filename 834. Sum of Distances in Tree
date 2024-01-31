@@ -1,0 +1,46 @@
+class Solution {
+    public int[] sumOfDistancesInTree(int n, int[][] edges) {
+        if(n<2 || edges==null){
+            return new int[]{0};
+        }
+        int [] countSubNode = new int[n];
+        Arrays.fill(countSubNode, 1);
+        int []dis = new int[n];
+        Map<Integer, List<Integer>> graph = getGraph(edges);
+        postOrderTraversal(0, -1, countSubNode, dis, graph);
+        preOrderTraversal(0, -1, countSubNode, dis, graph, n);
+        return dis;
+    }
+    private void postOrderTraversal(int node, int parent, int []csn, int []dis, Map<Integer, List<Integer>> graph){
+        List<Integer> child = graph.get(node);
+        for(int c: child){
+            if(c!=parent){
+                postOrderTraversal(c, node, csn, dis, graph);
+                csn[node] += csn[c];
+                dis[node] += dis[c] + csn[c];
+            }
+        }
+    }
+    private void preOrderTraversal(int node, int parent, int []csn, int []dis, Map<Integer, List<Integer>> graph, int n){
+        List<Integer> child = graph.get(node);
+        for(int c : child){
+            if(c!=parent){
+                dis[c] = dis[node] + (n-csn[c]) - csn[c];
+                preOrderTraversal(c, node, csn, dis, graph, n);
+            }
+        }
+    }
+
+    private Map<Integer, List<Integer>> getGraph(int [][]arr){
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for(int [] edge: arr){
+            graph.putIfAbsent(edge[0], new ArrayList<>());
+            graph.putIfAbsent(edge[1], new ArrayList<>());
+
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+        return graph;
+    }
+
+}
