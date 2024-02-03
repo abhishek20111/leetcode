@@ -1,0 +1,37 @@
+class Solution {
+
+    //recusive approach
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int n = arr.length;
+        int []dp = new int[n+1]; // 1 base indexing
+
+        //recusive apporach-------
+        // Arrays.fill(dp ,-1);
+        // return solve_rec_memo(arr, k, dp, n);
+
+        //dp solution 
+        for(int i=1; i<=n; i++){
+            int currmaxi = 0, best = 0;
+            for(int t=1; t<=k&&t<=i; t++){
+                currmaxi = Math.max(currmaxi, arr[i-t]);
+                best = Math.max(best, dp[i-t] + currmaxi*t);
+            }
+            dp[i] = best;
+        }
+        return dp[n];
+    }
+    
+    public int solve_rec_memo(int []arr, int k, int []dp, int i){
+        if(i==0)return 0;
+
+        if(dp[i]!=-1)return dp[i];
+
+        int currmaxi = 0, best = 0;
+        for(int t=1; 1<=k && t<=i; t++){ //it start from 1 still it iterate in k block only as we do (arr[i-t])
+            currmaxi = Math.max(currmaxi, arr[i-t]);
+            best = Math.max(best, solve_rec_memo(arr, k, dp, i-t) + currmaxi*t); // currmaxi*t is for multipky of max no in k or t time window
+        }
+        dp[i] = best;
+        return best;
+    }
+}
