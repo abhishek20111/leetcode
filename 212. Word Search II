@@ -1,0 +1,59 @@
+class Solution {
+    class Node {
+        char data;
+        String isTerminal = null;
+        HashMap<Character, Node> child = new HashMap<>();
+    }
+    List<String> ll = new ArrayList<>();
+
+
+    public void insert(Node root, String str){
+        Node curr = root;
+        for(int i=0; i<str.length(); i++){
+            char ch = str.charAt(i);
+            if(curr.child.containsKey(ch)){
+                curr = curr.child.get(ch);
+            }else{
+                Node nn = new Node();
+                nn.data = ch;
+                curr.child.put(ch, nn);
+                curr = nn;
+            }
+        }
+        curr.isTerminal = str;
+    }
+    public void search(char [][] board, int r, int c, Node root){
+        if(r<0 || c<0 || r>=board.length || c>=board[0].length || !root.child.containsKey(board[r][c])){
+            return;
+        }
+        char ch = board[r][c];
+        Node curr = root.child.get(ch);
+        if(curr.isTerminal != null){
+            ll.add(curr.isTerminal);
+            curr.isTerminal = null;
+        }
+        board[r][c] = '*';
+        search(board, r+1, c, curr);
+        search(board, r-1, c, curr);
+        search(board, r, c+1, curr);
+        search(board, r, c-1, curr);
+        board[r][c] = ch;
+    }
+    public List<String> findWords(char[][] board, String[] words) {
+        // 1 we first make trie from words 
+        // 2 find all word from trie, when you iterate from board , one by one you iterate and check that did that element present in it or not
+        Node root = new Node();
+        for(String s : words){
+            insert(root, s);
+        }
+
+        for(int i=0; i<board.length; i++){
+            for(int j=0; j<board[0].length; j++){
+                if(root.child.containsKey(board[i][j])){
+                    search(board, i, j, root);
+                }
+            }
+        }
+        return ll;
+    }
+}
