@@ -4,6 +4,31 @@ link - NHAY - A Needle in the Haystack
 https://leetcode.com/problems/longest-happy-prefix/description/
 1392. Longest Happy Prefix - Longest prefix that are also siffix
 
+class Solution {
+    public String longestPrefix(String s) {
+       int [] arr = new int[s.length()];
+       arr[0] = 0; //by default 0, beacuse 1 length string can not be have (same prefix and suffix)
+       int idx = 0;
+       for(int i=1; i<s.length();){
+           char ch = s.charAt(i);
+           if(ch == s.charAt(idx)){
+               idx++;
+               arr[i] = idx;
+               i++;
+           }else{
+               if(idx>0){
+                   idx = arr[idx-1];
+               }else{
+                   i++;
+               }
+           }
+       }
+       int a = arr[s.length()-1];
+       return s.substring(0, a);
+    }
+}
+
+
 # A string is called a happy prefix if is a non-empty prefix which is also a suffix (excluding itself).
 # Given a string s, return the longest happy prefix of s. Return an empty string "" if no such prefix exists.
 
