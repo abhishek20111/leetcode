@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Solution {
+    class Node {
+        String key;
+        double w;
+
+        Node(String key, double w) {
+            this.key = key;
+            this.w = w;
+        }
+    }
+
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> q) {
+        Map<String, List<Node>> map = new HashMap<>();
+        createGraph(map, equations, values);
+        double[] ans = new double[q.size()];
+        int i = 0;
+        for (List<String> query : q) {
+            ans[i++] = dfs(map, query.get(0), query.get(1), new HashSet<String>());
+        }
+        return ans;
+    }
+
+    public double dfs(Map<String, List<Node>> map, String src, String des, HashSet<String> visited) {
+        if (!map.containsKey(src) || !map.containsKey(des)) return -1.0;
+        if (src.equals(des)) return 1.0;
+
+        visited.add(src);
+        for (Node neighbor : map.get(src)) {
+            if (!visited.contains(neighbor.key)) {
+                double result = dfs(map, neighbor.key, des, visited);
+                if (result != -1.0) return result * neighbor.w;
+            }
+        }
+        return -1.0;
+    }
+
+    public void createGraph(Map<String, List<Node>> map, List<List<String>> e, double[] val) {
+        int i = 0;
+        for (List<String> edge : e) {
+            String src = edge.get(0);
+            String des = edge.get(1);
+            double value = val[i];
+            Node n1 = new Node(des, value);
+            Node n2 = new Node(src, 1 / value);
+            map.putIfAbsent(src, new ArrayList<>());
+            map.putIfAbsent(des, new ArrayList<>());
+            map.get(src).add(n1);
+            map.get(des).add(n2);
+            i++;
+        }
+    }
+}
