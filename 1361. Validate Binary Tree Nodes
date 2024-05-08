@@ -1,0 +1,31 @@
+class Solution {
+    public boolean validateBinaryTreeNodes(int n, int[] lc, int[] rc) {
+        int [] indegree = new int[n];
+        for(int i=0; i<n; i++){
+            if(lc[i] != -1) indegree[lc[i]]++;
+            if(rc[i] != -1) indegree[rc[i]]++;
+        }
+        int root = -1;
+        for(int i=0; i<n; i++){
+            if(indegree[i] == 0)root = i; // it check the node have indegree 0 so it is root
+        }
+        if(root == -1)return false; // no root found
+
+        boolean []vis = new boolean[n];
+        Queue<Integer> q = new LinkedList();
+        q.add(root);
+        while(!q.isEmpty()){
+            int node = q.poll();
+            if(vis[node])return false; // it mean we have already visited this node , it is cycle 
+
+            vis[node] = true;
+            if(lc[node] != -1)q.add(lc[node]);
+            if(rc[node] != -1)q.add(rc[node]);
+        }
+        int trueCount = 0;
+        for(boolean b: vis){
+            if(b)trueCount++;
+        }
+        return trueCount == n; //it can only be true if all node vis , but if it have cycle it will not vis
+    }
+}
